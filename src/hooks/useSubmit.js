@@ -14,18 +14,19 @@ const useSubmit = () => {
         body: JSON.stringify(values),
       });
   
-      const data = await response.json();
-  
-      if (response.ok) {
-        setResponse({ type: "success", message: data.message });
-      } else {
-        setResponse({ type: "error", message: data.message });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+  
+      const data = await response.json();
+      setResponse({ type: "success", message: data.message });
     } catch (error) {
       console.error(error);
-      setResponse({ type: "error", message: "Failed to submit form." });
+      setResponse({ type: "error", message: error.message || "Failed to submit form." });
     }
   };
+  
+  
   
   
 
