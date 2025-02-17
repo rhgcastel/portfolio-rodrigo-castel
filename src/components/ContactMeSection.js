@@ -28,54 +28,83 @@ const LandingSection = () => {
       type: "",
       comment: "",
     },
-    onSubmit: async (values, { resetForm }) => {
-      await submit('/', values);
-    },
     validationSchema: Yup.object({
       firstName: Yup.string()
-        .required("Required"),
+        .required("Name is required") 
+        .min(2, "Name must be at least 2 characters"),
       email: Yup.string()
         .email("Invalid email address")
-        .required("Required"),
+        .required("Email is required"),
       type: Yup.string()
-        .required("Required"),
+        .required("Type of enquiry is required"),
       comment: Yup.string()
-        .required("Required")
-        .min(25, "Must be atleast 25 characters")
+        .required("Message is required")
+        .min(10, "Message must be at least 10 characters"),
     }),
+    onSubmit: async (values, { resetForm }) => {
+      if (!formik.isValid) {
+        formik.setTouched({ firstName: true, email: true, type: true, comment: true });
+        console.log("Validation failed:", formik.errors);
+        return;
+      }
+      
+      try {
+        console.log("Submitting values:", values);
+        const res = await submit('/', values);
+        console.log("Response:", res);
+        
+        if (res.type === "success") {
+          onOpen({ type: "success", message: res.message });
+          resetForm();
+        } else {
+          onOpen({ type: "error", message: res.message });
+        }
+      } catch (error) {
+        console.error("Submission error:", error);
+        onOpen({ type: "error", message: "Something went wrong" });
+      }
+    },
   });
+  
+  
 
   useEffect(() => {
-    if (response) {
-      if (response.type === 'success') {
-        onOpen({
-          type: 'success',
-          message: response.message,
-        });
-        formik.resetForm();
-      } else if (response.type === 'error') {
-        onOpen({
-          type: 'error',
-          message: response.message,
-        });
-      }
-      setResponse(null);
+    if (!response) return;
+  
+    console.log("Response received:", response);
+    if (response?.type === 'success') {
+      onOpen({
+        type: 'success',
+        message: response.message || "Form submitted successfully!",
+      });
+      formik.resetForm();
+    } else {
+      onOpen({
+        type: 'error',
+        message: response?.message || "Something went wrong!",
+      });
     }
+    setResponse(null);
   }, [response, formik, onOpen, setResponse]);
+  
 
   return (
     <FullScreenSection
       isDarkBackground
       backgroundColor="#512DA8"
-      py={16}
-      spacing={8}
+      py={{ base: 12, md: 16 }}
+      spacing={{ base: 6, md: 8 }} 
     >
-      <VStack w="1024px" p={32} alignItems="flex-start">
-        <Heading as="h1" id="contactme-section">
+      <VStack 
+        w={{ base: "90%", md: "768px", lg: "1024px" }}
+        p={{ base: 6, md: 12, lg: 32 }}
+        alignItems="flex-start"
+      >
+        <Heading as="h1" id="contactme-section" fontSize={{ base: "2xl", md: "3xl" }}>
           Contact me
         </Heading>
-        
-        <Box p={6} rounded="md" w="100%">
+
+        <Box p={{ base: 4, md: 6 }} rounded="md" w="100%">
           <form onSubmit={formik.handleSubmit}>
             <VStack spacing={4}>
               <FormControl isInvalid={formik.errors.firstName && formik.touched.firstName}>
@@ -122,14 +151,19 @@ const LandingSection = () => {
                 <Textarea
                   id="comment"
                   name="comment"
-                  height={250}
+                  height={{ base: "150px", md: "250px" }}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.comment}
                 />
                 <FormErrorMessage>{formik.errors.comment}</FormErrorMessage>
               </FormControl>
-              <Button type="submit" colorScheme="purple" width="full" isLoading={isLoading}>
+              <Button 
+                type="submit" 
+                colorScheme="purple" 
+                width={{ base: "100%", md: "50%" }} 
+                isLoading={isLoading}
+              >
                 Submit
               </Button>
             </VStack>

@@ -109,13 +109,13 @@ const Header = () => {
           </nav>
           <nav>
             <HStack spacing={8}>
-              {/* <Link
+              <Link
                 _hover={{ color: "#767676", cursor: "pointer" }}
                 href="#contactme-section"
                 onClick={handleClick("contact-me")}
               >
                 Contact me
-              </Link> */}
+              </Link>
                             <Link
                 _hover={{ color: "#767676", cursor: "pointer" }}
                 href="#projects-section"
