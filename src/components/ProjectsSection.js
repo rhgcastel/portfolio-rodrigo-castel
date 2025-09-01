@@ -30,7 +30,7 @@ const projects = [
     description:
       "Created an image resizing and optimisation tool for internal company use. Built with React and Flask, the tool prioritised data security, reduced costs, and featured adjustable quality settings with aspect ratio maintenance.",
     getImageSrc: () => require("../images/image-pro.jpg"),
-    url: "https://image-pro-kappa.vercel.app/",
+    url: "https://image-pro-psi.vercel.app/",
   },
 ];
 
