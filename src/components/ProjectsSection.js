@@ -19,19 +19,19 @@ const projects = [
     url: "https://www.sofia-cruz.com/",
   },
   {
-    title: "Acme Dashboard",
-    description:
-      "Developed a modern admin dashboard for Acme, including login page, financial summaries, recent invoices, customer insights, search tool, etc. Built in NextJS.",
-    getImageSrc: () => require("../images/acme.jpg"),
-    url: "https://nextjs-dashboard-rodrigo-castels-projects.vercel.app/",
-  },
-  {
     title: "ImagePro (Image Optimising Tool)",
     description:
       "Created an image resizing and optimisation tool for internal company use. Built with React and Flask, the tool prioritised data security, reduced costs, and featured adjustable quality settings with aspect ratio maintenance.",
     getImageSrc: () => require("../images/image-pro.jpg"),
     url: "https://image-pro-psi.vercel.app/",
   },
+  {
+  title: "Artland Creations Art (Website Development)",
+  description:
+    "Designed and built a conversion-focused site for a watercolor illustration brand. Newsletter signup with a free PNG bundle, responsive UI, and subtle hand-painted styling. Next.js/React (TS) + Tailwind on Vercel.",
+  getImageSrc: () => require("../images/artland.png"),
+  url: "https://artland-creationsart-website.vercel.app/",
+},
 ];
 
 const ProjectsSection = () => {
